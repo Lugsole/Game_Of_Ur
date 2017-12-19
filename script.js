@@ -11,9 +11,23 @@ function Size_Canvas() {
     /* Change local With and height variables */
     w = window.innerWidth
     h = window.innerHeight
+    var x_ofset = 0;
+    var y_ofset = 0;
+
+    var screen_ratio = w / h
+    var game_ratio = 8 / 3
+    if (screen_ratio < game_ratio) {
+        h = w / game_ratio
+        y_ofset = (window.innerHeight - h) / 2
+    } if (screen_ratio > game_ratio) {
+        w = h * game_ratio
+        x_ofset = (window.innerWidth - w) / 2
+    }
     /* Change canvas With and height variables */
     canvas.width = w
     canvas.height = h
+    canvas.style.top = y_ofset + "px"
+    canvas.style.left = x_ofset + "px"
 };
 
 var canvas;
@@ -119,8 +133,8 @@ class Game_Of_Ur {
                             // if the other player is not occupying it
                             if (this.Player[this.Other_Player_name()].places.indexOf(Move_To) == -1) {
                                 this.Make_Move(Pice, Move_To)
-                            }
-                            alert("Cant make move, Because \"Rosette\" is already captured")
+                            } else
+                                alert("Cant make move, Because \"Rosette\" is already captured")
                         }
                         // if it is not the "Rosette"
                         else {
@@ -230,8 +244,8 @@ function step(now) {
     })
     ctx.fillStyle = "#F80"
     ctx.font = "30px Arial";
-    var str =  ""
-    
+    var str = ""
+
     ctx.fillText("Player " + game.Curent_Player_name(), 3 * w * W, 1 * h * H);
     ctx.fillText(game.Sum_Dice(), 3 * w * W, .5 * h * H);
 
@@ -248,27 +262,28 @@ function Init_Buttons() {
         }
     })
 
-    var b = new button( "a-1", W * 2, 0, W / 2, H / 2)
+    var b = new button("a-1", W * 2, 0, W / 2, H / 2)
     b.Color = "Blue"
     buttons.push(b)
 
-    var b = new button("b-1", W * 2, 2.5* H, W / 2, H / 2)
+    var b = new button("b-1", W * 2, 2.5 * H, W / 2, H / 2)
     b.Color = "Blue"
     buttons.push(b)
 
 }
 function Click(e) {
-    var X = e.x / w
-    var Y = e.y / h
+    var X = e.offsetX / w
+    var Y = e.offsetY / h
     var Player_Name = game.Curent_Player_name()
+    console.log("---------------------------------")
     buttons.forEach((button) => {
+        //console.log(button)
+        //console.log(button.is_clicked(X, Y))
         if (button.is_clicked(X, Y)) {
             if (button.name.includes(Player_Name)) {
-                if (button.name.includes("_I"))
-                    game.Player[Player_Name].avalible()
-
-                else
-                    game.Tap_Place(button.name)
+                console.log(button)
+                console.log(Player_Name)
+                game.Tap_Place(button.name)
                 console.log(button.name, button.Color)
             }
         }
