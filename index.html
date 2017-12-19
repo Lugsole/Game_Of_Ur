@@ -1,0 +1,54 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <title>Royal Game of Ur</title>
+    <meta charset="utf-8">
+    <link rel="apple-touch-icon-precomposed" href="icon0.png">
+    <link rel="shortcut icon" href="icon0.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html {
+            font-family: sans-serif;
+        }
+        body {
+            margin: 0;
+        }
+        canvas {
+            z-index: -1;
+        }
+        .button {
+            border: #008;
+            border-style: solid;
+            border-radius: 6px;
+            background: #88F;
+            padding: 2px;
+            border-width: 3px;
+            width: 100px;
+            text-align: center;
+            margin: 5px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        div.big {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: 100px;
+            height: 200px;
+        }
+        .Bottem {
+            position: absolute;
+            bottom: 0px;
+        }
+    </style>
+</head>
+<body>
+    <canvas style="position:absolute;top:0;left:0;" id="MyCanvas">Not Working</canvas>
+    <div class="button" onclick="game.Change_Turn();game.Roal_All_Dice()">
+        Skip Turn
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
