@@ -30,27 +30,69 @@ function Size_Canvas() {
     canvas.style.left = x_ofset + "px"
 };
 
+
+function togal_directions() {
+    var directions = document.getElementById("directions")
+    if (directions.style.display == "none")
+        directions.style.display = ""
+    else
+        directions.style.display = "none"
+}
+
 var canvas;
 
 var buttons = []
+var pictures = []
 
 window.addEventListener('load', function (e) {
     canvas = document.getElementById("MyCanvas");
     canvas.addEventListener("click", Click);
     Size_Canvas()
     game = new Game_Of_Ur()
+    Load_Pic("Player_a.png", "Player_a")
+    Load_Pic("Player_b.png", "Player_b")
+    Load_Pic("Rosette.png", "Rosette")
+    Load_Pic("five_hole.png", "five_hole")
     window.requestAnimationFrame(step);
     Init_Buttons()
 })
 
+function Load_Pic(file, name) {
+    var img = new Image();   // Create new img element
+    img.addEventListener('load', function () {
+        var pic = new picture(img, name)
+        pictures.push(pic)
+    }, false);
+    img.src = file; // Set source path
+}
+function place_img(name, x, y) {
+    for (var i = 0; i < pictures.length; i++) {
+        var pic = pictures[i];
+        if (pic.name == name) {
+            x -= pic.pic.width / 2;
+            y -= pic.pic.height / 2;
+            ctx.drawImage(pic.pic, x, y);
+            return;
+
+        }
+    }
+}
+
 window.onresize = Size_Canvas;
+
+class picture {
+    constructor(pic, name) {
+        this.pic = pic;
+        this.name = name;
+    }
+}
 
 class player {
     constructor() {
         this.pices = 7
         this.passed = 0
         this.places = []
-        this.Color = "Blue"
+        this.Color = "white"
         for (var i = 0; i < 7; i++)
             this.places.push(-1)
     }
@@ -71,6 +113,10 @@ class Game_Of_Ur {
         this.Player.a.Color = "Black"
         this.Roal_All_Dice()
         this.First_Point = true;
+        this.Parts = {
+            Rosette: [3, 13, 7],
+            five_hole: [1, 5, 8, 11]
+        }
     }
     Change_Turn() {
         this.turn = !this.turn;
@@ -108,7 +154,8 @@ class Game_Of_Ur {
 
                 this.Player[this.Curent_Player_name()].places.splice(Pice, 1);
             }
-            this.Change_Turn()
+            if (!this.Parts.Rosette.includes(Move_To))
+                this.Change_Turn()
             this.Roal_All_Dice()
         }
         else {
@@ -126,10 +173,10 @@ class Game_Of_Ur {
                 var Move_To = place + this.Sum_Dice();
                 if (this.Player[this.Curent_Player_name()].places.indexOf(Move_To) == -1) {
                     // if on a "Public" Square
-                    if (Move_To >= 2 && Move_To < 10) {
+                    if (Move_To >= 4 && Move_To < 12) {
                         console.log("Public space")
                         // if its the "Rosette"
-                        if (Move_To == 6) {
+                        if (Move_To == 7) {
                             // if the other player is not occupying it
                             if (this.Player[this.Other_Player_name()].places.indexOf(Move_To) == -1) {
                                 this.Make_Move(Pice, Move_To)
@@ -170,15 +217,15 @@ class Game_Of_Ur {
         var W = 1 / 8;
         var x = 0;
         var y = 0;
-        if (i < 2) {
-            x = 1 - i
+        if (i < 4) {
+            x = 3 - i
         }
-        if (i >= 2 && i < 10) {
+        else if (i >= 4 && i < 12) {
             y = H;
-            x = i - 2
+            x = i - 4
         }
-        else if (i >= 10) {
-            x = (i - 10);
+        else if (i >= 12) {
+            x = (i - 12);
             x = 7 - x;
             //x / w
         }
@@ -225,7 +272,7 @@ function step(now) {
         ctx.fillStyle = BTN.Color;
         ctx.fillRect(BTN.x * w, BTN.y * h, BTN.w * w, BTN.h * h);
 
-        ctx.strokeStyle = "#000";
+        ctx.strokeStyle = "#663300  ";
         ctx.lineWidth = 5;
         ctx.rect(BTN.x * w, BTN.y * h, BTN.w * w, BTN.h * h);
         ctx.stroke();
@@ -233,6 +280,27 @@ function step(now) {
 
     var t2 = performance.now()
     //console.log(t2 - t1)
+    game.Players.forEach((p) => {
+        game.Parts.Rosette.forEach((i) => {
+            var Pla = game.from_place(i, p)
+            var x = W * w / 2;
+            var y = W * w / 2;
+            x += Pla.x * w;
+            y += Pla.y * h;
+            place_img("Rosette", x, y)
+        })
+    })
+
+    game.Players.forEach((p) => {
+        game.Parts.five_hole.forEach((i) => {
+            var Pla = game.from_place(i, p)
+            var x = W * w / 2;
+            var y = W * w / 2;
+            x += Pla.x * w;
+            y += Pla.y * h;
+            place_img("five_hole", x, y)
+        })
+    })
     game.Players.forEach((p) => {
         game.Player[p].places.forEach((i) => {
             var Pla = game.from_place(i, p)
@@ -246,8 +314,38 @@ function step(now) {
     ctx.font = "30px Arial";
     var str = ""
 
-    ctx.fillText("Player " + game.Curent_Player_name(), 3 * w * W, 1 * h * H);
-    ctx.fillText(game.Sum_Dice(), 3 * w * W, .5 * h * H);
+    ctx.fillText("Player " + game.Curent_Player_name(), 5 * w * W, 1 * h * H);
+    ctx.fillText(game.Sum_Dice(), 5 * w * W, .5 * h * H);
+    ctx.fillText("Player a: " + game.Player.a.passed, 5 * w * W, 3 * h * H);
+    ctx.fillText("Player b: " + game.Player.b.passed, 5 * w * W, 2.5 * h * H);
+    pictures.forEach(pic => {
+        if (pic.name == "Player_a") {
+            game.Player["a"].places.forEach((i) => {
+                var Pla = game.from_place(i, "a")
+                var x = W * w / 2;
+                var y = W * w / 2;
+                x += Pla.x * w;
+                y += Pla.y * h;
+                x -= pic.pic.width / 2;
+                y -= pic.pic.height / 2;
+                //console.log(x, y)
+                ctx.drawImage(pic.pic, x, y);
+            })
+
+        } else if (pic.name == "Player_b") {
+            game.Player["b"].places.forEach((i) => {
+                var Pla = game.from_place(i, "b")
+                var x = W * w / 2;
+                var y = W * w / 2;
+                x += Pla.x * w;
+                y += Pla.y * h;
+                x -= pic.pic.width / 2;
+                y -= pic.pic.height / 2;
+                //console.log(x, y)
+                ctx.drawImage(pic.pic, x, y);
+            })
+        }
+    })
 
 }
 function Init_Buttons() {
@@ -257,16 +355,16 @@ function Init_Buttons() {
             var pl = game.from_place(i, p)
 
             var b = new button(p + i, pl.x, pl.y, W, H)
-            b.Color = "Red"
+            b.Color = "#ffa54f"
             buttons.push(b)
         }
     })
 
-    var b = new button("a-1", W * 2, 0, W / 2, H / 2)
+    var b = new button("a-1", W * 4, 0, W / 2, H / 2)
     b.Color = "Blue"
     buttons.push(b)
 
-    var b = new button("b-1", W * 2, 2.5 * H, W / 2, H / 2)
+    var b = new button("b-1", W * 4, 2.5 * H, W / 2, H / 2)
     b.Color = "Blue"
     buttons.push(b)
 

@@ -4,7 +4,7 @@
     <title>Royal Game of Ur</title>
     <meta charset="utf-8">
     <link rel="apple-touch-icon-precomposed" href="icon0.png">
-    <link rel="shortcut icon" href="icon0.png" />
+    <link rel="shortcut icon" href="icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="mobile-web-app-capable" content="yes">
@@ -13,12 +13,15 @@
         html {
             font-family: sans-serif;
         }
+
         body {
             margin: 0;
         }
+
         canvas {
             z-index: -1;
         }
+
         .button {
             border: #008;
             border-style: solid;
@@ -32,15 +35,20 @@
             display: inline-block;
             cursor: pointer;
         }
+
         div.big {
             font-size: 80px;
             text-align: center;
             margin-bottom: 100px;
             height: 200px;
         }
+
         .Bottem {
             position: absolute;
             bottom: 0px;
+        }
+        img {
+            padding: 5px;
         }
     </style>
 </head>
@@ -48,6 +56,43 @@
     <canvas style="position:absolute;top:0;left:0;" id="MyCanvas">Not Working</canvas>
     <div class="button" onclick="game.Change_Turn();game.Roal_All_Dice()">
         Skip Turn
+    </div>
+    <div class="button" onclick="togal_directions()">
+        Directions
+    </div>
+    <div style="display: none;">
+        <img id="Rosette" src="Rosette.png" width="100px">
+        <img id ="Player_a" src="Player_a.png" width="100px">
+        <img id="Player_b" src="Player_b.png" width="100px">
+    </div>
+    <div id="directions" style="width:50vw;left:25vw;position:absolute; border:solid;border-radius:5px; background-color:white; display:none;">
+        <h1>Directions</h1>
+        <ul>
+            <li>
+                Computer rolls 4 virtual dice, and the sum is the amount of spaces can move
+            </li>
+            <li>
+                Rosette is a safe spot
+            </li>
+            <li>
+                Rosette allows for a second turn
+            </li>
+        </ul>
+        <h1>Pictures</h1>
+        <ul>
+            <li>
+                Rosette: <img src="Rosette.png" width="50px" align="middle">
+            </li>
+            <li>
+                Five Hole: <img src="five_hole.png" width="50px" align="middle">
+            </li>
+            <li>
+                Player a: <img src="Player_a.png" width="50px" align="middle">
+            </li>
+            <li>
+                Player b: <img src="Player_b.png" width="50px" align="middle">
+            </li>
+        </ul>
     </div>
     <script src="script.js"></script>
 </body>
