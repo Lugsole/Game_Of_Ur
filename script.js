@@ -316,8 +316,8 @@ function step(now) {
 
     ctx.fillText("Player " + game.Curent_Player_name(), 5 * w * W, 1 * h * H);
     ctx.fillText(game.Sum_Dice(), 5 * w * W, .5 * h * H);
-    ctx.fillText("Player a: " + game.Player.a.passed, 5 * w * W, 3 * h * H);
-    ctx.fillText("Player b: " + game.Player.b.passed, 5 * w * W, 2.5 * h * H);
+    document.getElementById("Player_a").innerHTML = game.Player.a.passed
+    document.getElementById("Player_b").innerHTML = game.Player.b.passed
     pictures.forEach(pic => {
         if (pic.name == "Player_a") {
             game.Player["a"].places.forEach((i) => {
