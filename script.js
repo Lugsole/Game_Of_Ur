@@ -44,6 +44,11 @@ var canvas;
 var buttons = []
 var pictures = []
 
+/*window.addEventListener("resize", function () {
+    alert("Error");
+    step();
+});
+*/
 window.addEventListener('load', function (e) {
     canvas = document.getElementById("MyCanvas");
     canvas.addEventListener("click", Click);
@@ -80,7 +85,7 @@ function place_img(name, x, y) {
     }
 }
 
-window.onresize = Size_Canvas;
+window.onresize = step;
 
 class picture {
     constructor(pic, name) {
