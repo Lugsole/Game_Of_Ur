@@ -47,21 +47,23 @@ var pictures = []
 window.addEventListener('load', function (e) {
     canvas = document.getElementById("MyCanvas");
     canvas.addEventListener("click", Click);
-    Size_Canvas()
-    game = new Game_Of_Ur()
-    Load_Pic("Player_a.png", "Player_a")
-    Load_Pic("Player_b.png", "Player_b")
-    Load_Pic("Rosette.png", "Rosette")
-    Load_Pic("five_hole.png", "five_hole")
+    Size_Canvas();
+    game = new Game_Of_Ur();
+    Load_Pic("Player_a.png", "Player_a");
+    Load_Pic("Player_b.png", "Player_b");
+    Load_Pic("Rosette.png", "Rosette");
+    Load_Pic("five_hole.png", "five_hole");
     window.requestAnimationFrame(step);
-    Init_Buttons()
+    Init_Buttons();
+    step()
 })
 
 function Load_Pic(file, name) {
     var img = new Image();   // Create new img element
     img.addEventListener('load', function () {
-        var pic = new picture(img, name)
-        pictures.push(pic)
+        var pic = new picture(img, name);
+        pictures.push(pic);
+        step();
     }, false);
     img.src = file; // Set source path
 }
@@ -89,12 +91,12 @@ class picture {
 
 class player {
     constructor() {
-        this.pices = 7
-        this.passed = 0
-        this.places = []
-        this.Color = "white"
+        this.pices = 7;
+        this.passed = 0;
+        this.places = [];
+        this.Color = "white";
         for (var i = 0; i < 7; i++)
-            this.places.push(-1)
+            this.places.push(-1);
     }
     avalible() {
         return ((this.passed + this.places.length) - this.pices) >= 0
@@ -258,9 +260,9 @@ class button {
 }
 var BTN
 var ctx;
-function step(now) {
+function step() {
     /* requests a new frame  */
-    window.requestAnimationFrame(step);
+    //window.requestAnimationFrame(step);
     /* Creates a canvas that can be used to draw */
     //console.log("Frame")
     Size_Canvas()
@@ -386,4 +388,5 @@ function Click(e) {
             }
         }
     })
+    step()
 }
