@@ -1,0 +1,53 @@
+
+html {
+    font-family: sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+canvas {
+    z-index: -1;
+}
+
+.button {
+    border: #008;
+    border-style: solid;
+    border-radius: 6px;
+    background: #88F;
+    padding: 2px;
+    border-width: 3px;
+    width: 100px;
+    text-align: center;
+    margin: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+div.big {
+    font-size: 80px;
+    text-align: center;
+    margin-bottom: 100px;
+    height: 200px;
+}
+
+.Bottem {
+    position: absolute;
+    bottom: 0px;
+}
+
+img {
+    padding: 5px;
+}
+
+.centered {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: calc((3.2/8.2)*100vw );
+}
+

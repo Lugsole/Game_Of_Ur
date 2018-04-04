@@ -60,6 +60,7 @@ window.addEventListener('load', function (e) {
     Load_Pic("five_hole.png", "five_hole");
     window.requestAnimationFrame(step);
     Init_Buttons();
+    Draw_SVG()
     step()
 })
 
@@ -242,6 +243,27 @@ class Game_Of_Ur {
         p = new place(x, y);
         return p
     }
+
+    from_place_To_Cord(i, p) {
+
+        var x = 0;
+        var y = 0;
+        if (i < 4) {
+            x = 3 - i
+        }
+        else if (i >= 4 && i < 12) {
+            y = 1
+            x = i - 4
+        }
+        else {
+            x = (i - 11);
+            x = 8 - x;
+        }
+        if (p == "b" && y == 0)
+            y = 2
+        p = new place(x, y);
+        return p
+    }
 }
 
 class place {
@@ -265,6 +287,48 @@ class button {
 }
 var BTN
 var ctx;
+function Draw_SVG() {
+    var item = document.getElementById("svg")
+    var SVG = `<svg width="100%" viewBox="-.05 -.05 8.1 3.1">`
+    var pos;
+    for (var i = 0; i <= 13; i++) {
+        pos = game.from_place_To_Cord(i, "a")
+        SVG += `<rect x="${pos.x}" y="${pos.y}" width="1" height="1" style="fill:#ffa54f;stroke-width:.1;stroke:#630"/>`
+        if (!(i >= 4 && i < 12)) {
+            pos = game.from_place_To_Cord(i, "b")
+            SVG += `<rect x="${pos.x}" y="${pos.y}" width="1" height="1" style="fill:#ffa54f;stroke-width:.1;stroke:#630"/>`
+        }
+    }
+    game.Parts.five_hole.forEach((i) => {
+        pos = game.from_place_To_Cord(i, "a")
+        SVG += `<image x="${pos.x}" y="${pos.y}" width="1" height="1" xlink:href="SVG/five_hole.svg"/>`;
+        if (!(i >= 4 && i < 12)) {
+            pos = game.from_place_To_Cord(i, "b")
+            SVG += `<image x="${pos.x}" y="${pos.y}" width="1" height="1" xlink:href="SVG/five_hole.svg"/>`;
+        }
+    })
+    game.Parts.Rosette.forEach((i) => {
+        pos = game.from_place_To_Cord(i, "a")
+        SVG += `<image x="${pos.x}" y="${pos.y}" width="1" height="1" xlink:href="SVG/Rosette.svg"/>`;
+        if (!(i >= 4 && i < 12)) {
+            pos = game.from_place_To_Cord(i, "b")
+            SVG += `<image x="${pos.x}" y="${pos.y}" width="1" height="1" xlink:href="SVG/Rosette.svg"/>`;
+        }
+    })
+    game.Players.forEach((p) => {
+        game.Player[p].places.forEach((i) => {
+            pos = game.from_place_To_Cord(i, p)
+            SVG += `<image x="${pos.x}" y="${pos.y}" width="1" height="1" xlink:href="SVG/Player_${p}.svg" onclick="game.Tap_Place('${p + i}');Draw_SVG();"/>`;
+            
+        })
+    })
+    SVG += `</svg>`
+    item.innerHTML = SVG;
+    document.getElementById("Dice").innerHTML = game.Sum_Dice();
+    document.getElementById("Player").innerHTML = game.Curent_Player_name().toUpperCase();
+    document.getElementById("Player_a").innerHTML = game.Player.a.passed
+    document.getElementById("Player_b").innerHTML = game.Player.b.passed
+}
 function step() {
     /* requests a new frame  */
     //window.requestAnimationFrame(step);

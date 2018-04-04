@@ -9,73 +9,29 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        html {
-            font-family: sans-serif;
-        }
-
-        body {
-            margin: 0;
-        }
-
-        canvas {
-            z-index: -1;
-        }
-
-        .button {
-            border: #008;
-            border-style: solid;
-            border-radius: 6px;
-            background: #88F;
-            padding: 2px;
-            border-width: 3px;
-            width: 100px;
-            text-align: center;
-            margin: 5px;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        div.big {
-            font-size: 80px;
-            text-align: center;
-            margin-bottom: 100px;
-            height: 200px;
-        }
-
-        .Bottem {
-            position: absolute;
-            bottom: 0px;
-        }
-        img {
-            padding: 5px;
-        }
-    </style>
+    <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <canvas style="position:absolute;top:0;left:0;" id="MyCanvas">Not Working</canvas>
-    <!--<svg width="120px" height="160px">
-        <line x1="5" y1="5" x2="115" y2="5" style="stroke:brown;stroke-width:10;stroke-linecap:round" />
-        <line x1="5" y1="95" x2="115" y2="95" style="stroke:brown;stroke-width:10;stroke-linecap:round" />
-
-        <line x1="5" y1="5" x2="5" y2="115" style="stroke:brown;stroke-width:10;stroke-linecap:round" />
-        <line x1="95" y1="5" x2="95" y2="115" style="stroke:brown;stroke-width:10;stroke-linecap:round" />
-        <image x="10" y="10" width="80" height="80" xlink:href="SVG/five_hole.svg" />
-        <image x="100" y="100" width="80" height="80" xlink:href="SVG/five_hole.svg" />
-    </svg>-->
-    <div class="button" onclick="game.Change_Turn(); game.Roal_All_Dice(); step();">
-        Skip Turn
+    <canvas style="position:absolute;top:0;left:0;display: none;" id="MyCanvas">Not Working</canvas>
+    <div class="centered" id="svg">
+        <svg width="120px" height="120px" viewBox="-.1 -.1 2.1 2">
+        </svg>
     </div>
-    <div class="button" onclick="togal_directions()">
-        Directions
+    <div style="top: 0;position: absolute;">
+
+
+        <div class="button" onclick="game.Change_Turn(); game.Roal_All_Dice(); Draw_SVG();">
+            Skip Turn
+        </div>
+        <div class="button" onclick="togal_directions()">
+            Directions
+        </div>
     </div>
     <div style="bottom: 0;right: 0;position: absolute;font-size: 30pt;">
         Player A:<span id="Player_a">0</span> Player B:<span id="Player_b">0</span>
     </div>
-    <div style="display: none;">
-        <img id="Rosette" src="Rosette.png" width="100px">
-        <img id="Player_a" src="Player_a.png" width="100px">
-        <img id="Player_b" src="Player_b.png" width="100px">
+    <div style="top: 0;right: 0;position: absolute;font-size: 30pt;">
+        The dice are: <span id="Dice">0</span> it is player <span id="Player">a</span>'s turn
     </div>
     <div id="directions" style="width:50vw;left:25vw;position:absolute; border:solid;border-radius:5px; background-color:white; display:none;">
         <h1>Directions</h1>
@@ -93,16 +49,16 @@
         <h1>Pictures</h1>
         <ul>
             <li>
-                Rosette: <img src="Rosette.png" width="50px" align="middle">
+                Rosette: <img src="SVG/Rosette.svg" width="50px" align="middle">
             </li>
             <li>
-                Five Hole: <img src="five_hole.png" width="50px" align="middle">
+                Five Hole: <img src="SVG/five_hole.svg" width="50px" align="middle">
             </li>
             <li>
-                Player a: <img src="Player_a.png" width="50px" align="middle">
+                Player a: <img src="SVG/Player_a.svg" width="50px" align="middle">
             </li>
             <li>
-                Player b: <img src="Player_b.png" width="50px" align="middle">
+                Player b: <img src="SVG/Player_b.svg" width="50px" align="middle">
             </li>
         </ul>
     </div>
