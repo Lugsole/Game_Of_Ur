@@ -17,7 +17,7 @@
         <svg width="120px" height="120px" viewBox="-.1 -.1 2.1 2">
         </svg>
     </div>
-    <div style="top: 0;position: absolute;">
+    <div style="top: 0;position: absolute;z-index: 1;">
 
 
         <div class="button" onclick="game.Change_Turn(); game.Roal_All_Dice(); Draw_SVG();">
@@ -27,11 +27,11 @@
             Directions
         </div>
     </div>
-    <div style="bottom: 0;right: 0;position: absolute;font-size: 30pt;">
+    <div style="bottom: 0;right: 0;position: absolute;font-size: 30pt;z-index: 0;">
         Player A:<span id="Player_a">0</span> Player B:<span id="Player_b">0</span>
     </div>
     <div style="top: 0;right: 0;position: absolute;font-size: 30pt;">
-        The dice are: <span id="Dice">0</span> it is player <span id="Player">a</span>'s turn
+        Player: <span id="Player">A</span>;dice: <span id="Dice">0</span>
     </div>
     <div id="directions" style="width:50vw;left:25vw;position:absolute; border:solid;border-radius:5px; background-color:white; display:none;">
         <h1>Directions</h1>
